@@ -1,6 +1,6 @@
 # Stardew Valley Server
 
-This repository is for Pterdactyl docker container to run a Stardew Valley Server based on the printfuck's (Stardew multiplayer docker compose container)[https://github.com/printfuck/stardew-multiplayer-docker] and parkervcp's (Starbound egg)[https://github.com/parkervcp/eggs/tree/master/steamcmd_servers/starbound] for templating out how to get steamcmd to install the game.
+This repository is for Pterdactyl docker container to run a Stardew Valley Server based on the printfuck's [Stardew multiplayer docker compose container](https://github.com/printfuck/stardew-multiplayer-docker) and parkervcp's [Starbound Pterodactyl Egg](https://github.com/parkervcp/eggs/tree/master/steamcmd_servers/starbound) for templating out how to get steamcmd to install the game.
 
 ## Setup
 
