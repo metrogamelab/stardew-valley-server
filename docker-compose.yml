@@ -1,0 +1,24 @@
+version: '2.2'
+
+services:
+  stardew-valley:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        STEAM_USER: ${STEAM_USER}
+        STEAM_PASS: ${STEAM_PASS}
+        SRCDS_APPID: 413150
+    container_name: stardew-valley
+    environment:
+      - VNC_PASS=${VNC_PASS}
+    ports:
+      - 5900:5900
+      - 24642:24642/udp
+    volumes:
+      - ./config:/root/.config/i3/config
+      - ./valley_saves:/root/.config/StardewValley/Saves/
+      - ./configs/alwayson.json:/mnt/server/Stardew Valley/Mods/Always On Server/config.json
+      - ./configs/unlimitedplayers.json:/mnt/server/Stardew Valley/Mods/UnlimitedPlayers/config.json
+      - ./configs/autoload.json:/mnt/server/Stardew Valley/Mods/AutoLoadGame/config.json
+      
