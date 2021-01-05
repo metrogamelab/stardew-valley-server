@@ -1,0 +1,81 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2020-29-17T08:01:28+01:00",
+    "name": "Stardew Valley",
+    "author": "games@metrogamelab.com",
+    "description": "You've inherited your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home?",
+    "image": "docker.io\/metrogamelab\/stardew-valley-server:latest",
+    "startup": ".\/Stardew\\ Valley\/StardewValley",
+    "config": {
+        "files": "{\r\n    \"\/home\/container\/Stardew\\ Valley\/Mods\/Always\\ On\\ Server\/config.json\": {\r\n        \"parser\": \"json\"\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Starting Farm Server\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{\r\n    \"custom\": true,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# If game isn't installed, set it up.\r\nif [[ ! -d ${HOME}\/Stardew\\ Valley\/ ]]; then\r\ncd ${HOME}\/steamcmd \r\nmkdir -p ${HOME}\/Stardew\\ Valley\/\r\n.\/steamcmd.sh +login ${STEAM_USER} ${STEAM_PASS} ${STEAM_AUTH} +force_install_dir ${HOME}\/Stardew\\ Valley\/ +app_update ${SRCDS_APPID} validate +quit\r\nmkdir -p ${HOME}\/.steam\/sdk32\r\ncp -v linux32\/steamclient.so ..\/.steam\/sdk32\/steamclient.so\r\nmkdir -p ${HOME}\/.steam\/sdk64\r\ncp -v linux64\/steamclient.so ..\/.steam\/sdk64\/steamclient.so\r\nmkdir -p ${HOME}\/nexus\r\nwget https:\/\/github.com\/Pathoschild\/SMAPI\/releases\/download\/3.8\/SMAPI-3.8.0-installer.zip -qO ${HOME}\/nexus.zip\r\nunzip ${HOME}\/nexus.zip -d ${HOME}\/nexus\/\r\n\/bin\/bash -c \"echo -e \\\"2\\n${HOME}\/Stardew\\ Valley\\n1\\n\\\" | \/usr\/bin\/mono ${HOME}\/nexus\/SMAPI\\ 3.8.0\\ installer\/internal\/unix-install.exe\"\r\nwget https:\/\/github.com\/metrogamelab\/stardew-valley-mods\/raw\/main\/alwayson.zip -qO ${HOME}\/alwayson.zip\r\nwget https:\/\/github.com\/metrogamelab\/stardew-valley-mods\/raw\/main\/unlimitedplayers.zip -qO ${HOME}\/unlimitedplayers.zip\r\nwget https:\/\/github.com\/metrogamelab\/stardew-valley-mods\/raw\/main\/autoloadgame.zip -qO ${HOME}\/autoloadgame.zip\r\nunzip ${HOME}\/alwayson.zip -d ${HOME}\/Stardew\\ Valley\/Mods\r\nunzip ${HOME}\/unlimitedplayers.zip -d ${HOME}\/Stardew\\ Valley\/Mods\r\nunzip ${HOME}\/autoloadgame.zip -d ${HOME}\/Stardew\\ Valley/Mods\r\nrm ${HOME}\/alwayson.zip ${HOME}\/unlimitedplayers.zip ${HOME}\/autoloadgame.zip\r\nchown -R ${USER}:${USER} ${HOME}\r\nfi\r\n",
+            "container": "mono:latest",
+            "entrypoint": "\/bin\/bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Game ID",
+            "description": "The ID corresponding to the game to download and run using SRCDS.",
+            "env_variable": "SRCDS_APPID",
+            "default_value": "413150",
+            "user_viewable": 1,
+            "user_editable": 0,
+            "rules": "string"
+        },
+        {
+            "name": "Steam User",
+            "description": "This is a required setting and cannot be set to anonymous.",
+            "env_variable": "STEAM_USER",
+            "default_value": "",
+            "user_viewable": 0,
+            "user_editable": 0,
+            "rules": "required|string"
+        },
+        {
+            "name": "Steam Password",
+            "description": "Steam User Password",
+            "env_variable": "STEAM_PASS",
+            "default_value": "",
+            "user_viewable": 0,
+            "user_editable": 0,
+            "rules": "nullable|string"
+        },
+        {
+            "name": "Steam Auth",
+            "description": "Steam account auth code. Required if you have 2fa enabled.",
+            "env_variable": "STEAM_AUTH",
+            "default_value": "",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "nullable|string|max:5"
+        },
+        {
+            "name": "VNC Password",
+            "description": "Password to access game via VNC console",
+            "env_variable": "VNC_PASS",
+            "default_value": "",
+            "user_viewable": 0,
+            "user_editable": 0,
+            "rules": "required|string"
+        },
+        {
+            "name": "Auto Update Server",
+            "description": "This is to auto-update the game server.",
+            "env_variable": "AUTO_UPDATE",
+            "default_value": "1",
+            "user_viewable": 0,
+            "user_editable": 0,
+            "rules": "required|bool"
+        }
+    ]
+}
